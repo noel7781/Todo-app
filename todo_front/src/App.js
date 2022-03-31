@@ -40,9 +40,11 @@ class App extends Component {
   };
 
   add = (item) => {
-    call("/todo", "POST", item).then((response) =>
-      this.setState({ items: response.data })
-    );
+    console.log("item:", item);
+    call("/todo", "POST", item).then((response) => {
+      console.log("add resp:", response);
+      this.setState({ items: response.data });
+    });
   };
   delete = (item) => {
     console.log("delete:", item);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/todo")
 public class TodoController {
@@ -32,10 +32,10 @@ public class TodoController {
 
     @PostMapping
     public ResponseEntity<?> createTodo(@RequestBody TodoDto todoDto) {
+        log.info("todoDto : {}", todoDto);
         TodoEntity todoEntity = TodoDto.toEntity(todoDto);
         todoEntity.setTodoId(null);
         todoEntity.setDone(false);
-        log.info("todoEntity : {}", todoEntity);
         List<TodoEntity> todoEntities = todoService.create(todoEntity);
         List<TodoDto> todoDtos = todoEntities.stream().map(TodoDto::new).collect(Collectors.toList());
         ResponseDto<TodoDto> response = ResponseDto.<TodoDto>builder().data(todoDtos).build();
