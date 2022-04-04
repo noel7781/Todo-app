@@ -21,6 +21,7 @@ class Todo extends Component {
     this.delete(this.state.item);
   };
   offReadOnlyMode = () => {
+    console.log("Event!", this.state.readOnly);
     this.setState({ readOnly: false });
   };
   enterKeyEventHandler = (e) => {

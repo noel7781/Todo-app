@@ -12,46 +12,32 @@ import { Component } from "react";
 import AddTodo from "./AddTodo";
 import "./App.css";
 import Todo from "./Todo";
-// import { call, signout } from "./service/ApiService";
-import { call } from "./service/ApiService";
-import axios from "axios";
+import { call, signout } from "./service/ApiService";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
+      loading: true,
     };
   }
 
   componentDidMount() {
-    call("/todo", "GET", null).then((response) => {
-      return this.setState({ items: response.data });
-    });
+    call("/todo", "GET", null).then((response) =>
+      this.setState({ items: response.data, loading: false })
+    );
   }
 
-  request = async () => {
-    console.log("request..");
-    let ret = await axios
-      .get("http://localhost:8080/todo")
-      .then((res) => console.log(res));
-    console.log(ret);
-    return ret;
-  };
-
   add = (item) => {
-    console.log("item:", item);
-    call("/todo", "POST", item).then((response) => {
-      console.log("add resp:", response);
-      this.setState({ items: response.data });
-    });
+    call("/todo", "POST", item).then((response) =>
+      this.setState({ items: response.data })
+    );
   };
   delete = (item) => {
-    console.log("delete:", item);
-    call("/todo", "DELETE", item).then((response) => {
-      console.log("after items:", response.data);
-      this.setState({ items: response.data });
-    });
+    call("/todo", "DELETE", item).then((response) =>
+      this.setState({ items: response.data })
+    );
   };
   update = (item) => {
     call("/todo", "PUT", item).then((response) => {
@@ -62,10 +48,10 @@ class App extends Component {
     const todoItems = this.state.items.length > 0 && (
       <Paper style={{ margin: 16 }}>
         <List>
-          {this.state.items.map((item, index) => (
+          {this.state.items.map((item, idx) => (
             <Todo
               item={item}
-              key={item.todoId}
+              key={item.id}
               delete={this.delete}
               update={this.update}
             />
@@ -76,9 +62,14 @@ class App extends Component {
     const navigationBar = (
       <AppBar position="static">
         <Toolbar>
-          <Grid justifyContent="space-between" container>
+          <Grid justify="space-between" container>
             <Grid item>
               <Typography variant="h6">오늘의 할일</Typography>
+            </Grid>
+            <Grid>
+              <Button color="inherit" onClick={signout}>
+                로그아웃
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
@@ -90,11 +81,9 @@ class App extends Component {
         <Container maxWidth="md">
           <AddTodo add={this.add} />
           <div className="TodoList">{todoItems}</div>
-          <Button onClick={this.request}>Axios Request</Button>
         </Container>
       </div>
     );
-
     return <div className="App">{todoListPage}</div>;
   }
 }

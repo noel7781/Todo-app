@@ -14,7 +14,7 @@ export function call(api, method, request) {
   if (request) {
     options.body = JSON.stringify(request);
   }
-  // console.log("options:", options);
+  console.log("options:", options);
   return fetch(options.url, options)
     .then((response) => response.json())
     .then((json) => {
@@ -30,20 +30,20 @@ export function call(api, method, request) {
     });
 }
 
-// export function signin(userDto) {
-//   return call("/auth/signin", "POST", userDto).then((response) => {
-//     if (response.token) {
-//       localStorage.setItem("ACCESS_TOKEN", response.token);
-//       window.location.href = "/";
-//     }
-//   });
-// }
+export function signin(userDto) {
+  return call("/auth/signin", "POST", userDto).then((response) => {
+    if (response.token) {
+      localStorage.setItem("ACCESS_TOKEN", response.token);
+      window.location.href = "/";
+    }
+  });
+}
 
-// export function signout() {
-//   localStorage.setItem(ACCESS_TOKEN, null);
-//   window.location.href = "/login";
-// }
+export function signout() {
+  localStorage.setItem(ACCESS_TOKEN, null);
+  window.location.href = "/login";
+}
 
-// export function signup(userDto) {
-//   return call("/auth/signup", "POST", userDto);
-// }
+export function signup(userDto) {
+  return call("/auth/signup", "POST", userDto);
+}

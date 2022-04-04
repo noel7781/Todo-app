@@ -1,9 +1,9 @@
 import { Box, Typography } from "@material-ui/core";
 import { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import Login from "./Login";
+import Login from "./Login";
 import App from "./App";
-// import SignUp from "./SignUp";
+import SignUp from "./SignUp";
 
 function Copyright() {
   return (
@@ -20,12 +20,12 @@ class AppRouter extends Component {
         <Router>
           <div>
             <Switch>
-              {/* <Route path="/login">
+              <Route path="/login">
                 <Login />
               </Route>
               <Route path="/signup">
                 <SignUp />
-              </Route> */}
+              </Route>
               <Route path="/">
                 <App />
               </Route>

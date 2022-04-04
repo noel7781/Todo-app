@@ -2,6 +2,7 @@ package com.example.todo.service;
 
 import com.example.todo.entity.TodoEntity;
 import com.example.todo.repository.TodoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
 
-    @Autowired
-    private TodoRepository todoRepository;
+    private final TodoRepository todoRepository;
     public List<TodoEntity> findAll() {
         return todoRepository.findAll();
     }

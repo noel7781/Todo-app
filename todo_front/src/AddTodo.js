@@ -12,6 +12,7 @@ class AddTodo extends Component {
     const thisItem = this.state.item;
     thisItem.title = e.target.value;
     this.setState({ item: thisItem });
+    console.log(thisItem);
   };
   onButtonClick = () => {
     this.add(this.state.item);
