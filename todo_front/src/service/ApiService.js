@@ -6,6 +6,11 @@ export function call(api, method, request) {
     "Content-Type": "application/json",
   });
 
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  if (accessToken && accessToken !== null) {
+    headers.append("Authorization", "Bearer " + accessToken);
+  }
+
   let options = {
     headers,
     url: API_BASE_URL + api,
@@ -18,6 +23,7 @@ export function call(api, method, request) {
   return fetch(options.url, options)
     .then((response) => response.json())
     .then((json) => {
+      console.log("json:", json);
       if (json.error) {
         return Promise.reject(json);
       }

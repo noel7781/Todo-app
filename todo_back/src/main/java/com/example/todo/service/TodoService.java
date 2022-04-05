@@ -1,7 +1,9 @@
 package com.example.todo.service;
 
 import com.example.todo.entity.TodoEntity;
+import com.example.todo.entity.UserEntity;
 import com.example.todo.repository.TodoRepository;
+import com.example.todo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +21,16 @@ public class TodoService {
     }
     public List<TodoEntity> create(TodoEntity todoEntity) {
         todoRepository.save(todoEntity);
-        return todoRepository.findAll();
+        return todoRepository.findByUser(todoEntity.getUser());
     }
 
     public List<TodoEntity> delete(TodoEntity todoEntity) {
         todoRepository.delete(todoEntity);
-        return todoRepository.findAll();
+        return todoRepository.findByUser(todoEntity.getUser());
     }
 
     public List<TodoEntity> update(TodoEntity todoEntity) {
-        List<TodoEntity> original = todoRepository.findAll();
+        List<TodoEntity> original = todoRepository.findByUser(todoEntity.getUser());
         for (TodoEntity todo : original) {
             if (todo.getTodoId() == todoEntity.getTodoId()) {
                 todo.setTitle(todoEntity.getTitle());
@@ -37,5 +39,9 @@ public class TodoService {
             todoRepository.save(todo);
         }
         return original;
+    }
+
+    public List<TodoEntity> findByUser(UserEntity user) {
+        return todoRepository.findByUser(user);
     }
 }

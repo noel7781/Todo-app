@@ -3,6 +3,7 @@ package com.example.todo.controller;
 import com.example.todo.dto.ResponseDto;
 import com.example.todo.dto.UserDto;
 import com.example.todo.entity.UserEntity;
+import com.example.todo.security.TokenProvider;
 import com.example.todo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -26,6 +27,9 @@ public class UserController {
     private UserService userService;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserDto userDto) {
@@ -55,9 +59,11 @@ public class UserController {
         Optional<UserEntity> user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
         if(user.isPresent()) {
             UserEntity userEntity = user.get();
+            String token = tokenProvider.createToken(userEntity);
             UserDto result = UserDto.builder()
                     .email(userEntity.getEmail())
                     .userId(userEntity.getUserId())
+                    .token(token)
                     .build();
 
             return ResponseEntity.ok().body(result);
