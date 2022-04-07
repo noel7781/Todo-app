@@ -37,14 +37,14 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public Optional<UserEntity> getByCredentials(String email, String password, PasswordEncoder encoder) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        if(user.isPresent()) {
-            if(encoder.matches(password, user.get().getPassword())) {
-                return user;
-            }
-        }
-        return Optional.ofNullable(null);
-    }
+//    public Optional<UserEntity> getByCredentials(String email, String password, PasswordEncoder encoder) {
+//        Optional<UserEntity> user = userRepository.findByEmail(email);
+//        if(user.isPresent()) {
+//            if(encoder.matches(password, user.get().getPassword())) {
+//                return user;
+//            }
+//        }
+//        return Optional.ofNullable(null);
+//    }
 
 }

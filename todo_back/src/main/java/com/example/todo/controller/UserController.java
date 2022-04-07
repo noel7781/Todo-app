@@ -31,47 +31,47 @@ public class UserController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserDto userDto) {
-        try {
-            log.info("signup userDto : {}", userDto);
-            UserEntity user = UserEntity.builder()
-                    .email(userDto.getEmail())
-                    .name(userDto.getName())
-                    .password(passwordEncoder.encode(userDto.getPassword()))
-                    .build();
-
-            UserEntity registeredUser = userService.create(user);
-            UserDto result = UserDto.builder()
-                    .email(registeredUser.getEmail())
-                    .name(registeredUser.getName())
-                    .build();
-
-            return ResponseEntity.ok().body(result);
-        } catch(Exception e) {
-            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
-            return ResponseEntity.badRequest().body(responseDto);
-        }
-    }
-
-    @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody UserDto userDto) {
-        Optional<UserEntity> user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
-        if(user.isPresent()) {
-            UserEntity userEntity = user.get();
-            String token = tokenProvider.createToken(userEntity);
-            UserDto result = UserDto.builder()
-                    .email(userEntity.getEmail())
-                    .userId(userEntity.getUserId())
-                    .token(token)
-                    .build();
-
-            return ResponseEntity.ok().body(result);
-        } else {
-            ResponseDto responseDto = ResponseDto.builder().error("Login Failed").build();
-            return ResponseEntity.badRequest().body(responseDto);
-        }
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> signup(@RequestBody UserDto userDto) {
+//        try {
+//            log.info("signup userDto : {}", userDto);
+//            UserEntity user = UserEntity.builder()
+//                    .email(userDto.getEmail())
+//                    .name(userDto.getName())
+//                    .password(passwordEncoder.encode(userDto.getPassword()))
+//                    .build();
+//
+//            UserEntity registeredUser = userService.create(user);
+//            UserDto result = UserDto.builder()
+//                    .email(registeredUser.getEmail())
+//                    .name(registeredUser.getName())
+//                    .build();
+//
+//            return ResponseEntity.ok().body(result);
+//        } catch(Exception e) {
+//            ResponseDto responseDto = ResponseDto.builder().error(e.getMessage()).build();
+//            return ResponseEntity.badRequest().body(responseDto);
+//        }
+//    }
+//
+//    @PostMapping("/signin")
+//    public ResponseEntity<?> signin(@RequestBody UserDto userDto) {
+//        Optional<UserEntity> user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
+//        if(user.isPresent()) {
+//            UserEntity userEntity = user.get();
+//            String token = tokenProvider.createToken(userEntity);
+//            UserDto result = UserDto.builder()
+//                    .email(userEntity.getEmail())
+//                    .userId(userEntity.getUserId())
+//                    .token(token)
+//                    .build();
+//
+//            return ResponseEntity.ok().body(result);
+//        } else {
+//            ResponseDto responseDto = ResponseDto.builder().error("Login Failed").build();
+//            return ResponseEntity.badRequest().body(responseDto);
+//        }
+//    }
 
 
 }
